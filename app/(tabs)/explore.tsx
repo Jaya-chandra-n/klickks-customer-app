@@ -91,23 +91,8 @@ export default function ExploreScreen() {
       <View className="px-5 py-4 bg-white border-b border-[#2323231F]">
         <View className="flex-row items-center justify-between mb-3">
           <Text className="font-figtree-bold text-2xl text-[#232323]">
-            Discover
+            Explore
           </Text>
-
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Help"
-            style={({ pressed }) => ({
-              width: 44,
-              height: 44,
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 22,
-              opacity: pressed ? 0.7 : 1,
-            })}
-          >
-            <HelpIcon size={36} color="#232323" />
-          </Pressable>
         </View>
 
         <View className="flex-row items-center px-4 h-12 rounded-2xl bg-white border border-[#2323231F]">

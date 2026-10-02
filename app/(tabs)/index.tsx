@@ -74,8 +74,8 @@ export default function HomeScreen() {
             <MomentizzLogo showTagline size="sm" />
           </View>
 
-          {/* Right Action Icons with compact 8px gap spacing */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          {/* Right Action Icons */}
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
             <TouchableOpacity
               onPress={() => router.push('/favorites')}
               style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: '#F8F9FA', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#23232314' }}
@@ -90,24 +90,6 @@ export default function HomeScreen() {
             >
               <Avatar url={customer?.avatar} name={customer?.name || 'Jay'} size="sm" />
             </TouchableOpacity>
-
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel="Help"
-              style={({ pressed }) => ({
-                width: 36,
-                height: 36,
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 18,
-                backgroundColor: '#F8F9FA',
-                borderWidth: 1,
-                borderColor: '#23232314',
-                opacity: pressed ? 0.7 : 1,
-              })}
-            >
-              <HelpIcon size={18} color="#232323" />
-            </Pressable>
           </View>
         </View>
 
