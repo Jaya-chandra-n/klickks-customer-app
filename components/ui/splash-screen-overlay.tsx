@@ -116,9 +116,8 @@ export function SplashScreenOverlay({ onFinish }: { onFinish: () => void }) {
               letterSpacing: -0.5,
             }}
           >
-            MOMENTIZZ
+            MOMENTZZ
           </Text>
-          
         </View>
 
         {/* Exact Tagline requested by user in Solid Black */}
@@ -182,7 +181,7 @@ export function SplashScreenOverlay({ onFinish }: { onFinish: () => void }) {
             color: '#000000',
           }}
         >
-          Loading Momentizz... ({secondsLeft}s)
+          Loading Momentzz... ({secondsLeft}s)
         </Text>
       </View>
     </Animated.View>

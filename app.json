@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "MOMENTIZZ",
+    "name": "MOMENTZZ",
     "slug": "klickks-customer-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "momentizz",
+    "scheme": "momentzz",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {

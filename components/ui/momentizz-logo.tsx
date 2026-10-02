@@ -29,7 +29,7 @@ export function MomentizzLogo({
             letterSpacing: -0.6,
           }}
         >
-          MOMENTIZZ
+          MOMENTZZ
         </Text>
       </View>
       {showTagline && (
