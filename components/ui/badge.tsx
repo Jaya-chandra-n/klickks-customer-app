@@ -59,7 +59,7 @@ export function Badge({
   return (
     <View className={`${getContainerStyle()} ${className}`}>
       {icon && <View className="mr-1">{icon}</View>}
-      <Text className={getTextStyle()}>{label}</Text>
+      <Text allowFontScaling={false} className={getTextStyle()}>{label}</Text>
     </View>
   );
 }

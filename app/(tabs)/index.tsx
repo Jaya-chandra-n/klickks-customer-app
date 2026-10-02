@@ -341,12 +341,13 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontFamily: 'Figtree_700Bold',
-    fontSize: 15,
+    fontSize: 14.5,
     color: '#232323',
+    flexShrink: 0,
   },
   sectionTitleFlex: {
     fontFamily: 'Figtree_700Bold',
-    fontSize: 15,
+    fontSize: 14.5,
     color: '#232323',
     flexShrink: 1,
     marginRight: 8,

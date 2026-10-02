@@ -66,14 +66,14 @@ function PhotographerCardComponent({
             {photographer.isAvailableToday ? (
               <View className="bg-[#232323]/95 px-2.5 py-1 rounded-full flex-row items-center shadow-sm">
                 <View className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5" />
-                <Text className="font-figtree-bold text-[9px] text-white uppercase tracking-wider">
+                <Text allowFontScaling={false} className="font-figtree-bold text-[9px] text-white uppercase tracking-wider">
                   Today
                 </Text>
               </View>
             ) : photographer.isAvailableThisWeek ? (
               <View className="bg-[#232323]/95 px-2.5 py-1 rounded-full flex-row items-center shadow-sm">
                 <View className="w-1.5 h-1.5 rounded-full bg-amber-400 mr-1.5" />
-                <Text className="font-figtree-bold text-[9px] text-white uppercase tracking-wider">
+                <Text allowFontScaling={false} className="font-figtree-bold text-[9px] text-white uppercase tracking-wider">
                   This Week
                 </Text>
               </View>
@@ -87,7 +87,7 @@ function PhotographerCardComponent({
                 style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}
               >
                 {isFreeOffer && <SparklesIcon size={10} color="#FFFFFF" />}
-                <Text className="font-figtree-bold text-[9px] text-white uppercase tracking-wider">
+                <Text allowFontScaling={false} className="font-figtree-bold text-[9px] text-white uppercase tracking-wider">
                   {photographer.offerTag}
                 </Text>
               </View>
@@ -98,11 +98,11 @@ function PhotographerCardComponent({
             className="absolute bottom-2 left-3 bg-[#232323]/90 px-2.5 py-1 rounded-lg flex-row items-center"
             style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}
           >
-            <Text className="font-figtree-semibold text-[10px] text-white">
+            <Text allowFontScaling={false} className="font-figtree-semibold text-[10px] text-white">
               From ₹{photographer.startingPrice.toLocaleString('en-IN')}
             </Text>
             {photographer.originalPrice && (
-              <Text className="font-figtree text-[9px] text-white/70 line-through">
+              <Text allowFontScaling={false} className="font-figtree text-[9px] text-white/70 line-through">
                 ₹{photographer.originalPrice.toLocaleString('en-IN')}
               </Text>
             )}
@@ -112,6 +112,7 @@ function PhotographerCardComponent({
         <View className="p-4 bg-white">
           <View className="flex-row items-center justify-between mb-1.5">
             <Text
+              allowFontScaling={false}
               className="font-figtree-bold text-base text-[#232323] flex-1 mr-2"
               numberOfLines={1}
             >
@@ -122,7 +123,7 @@ function PhotographerCardComponent({
 
           <View className="flex-row items-center mb-2.5">
             <MapPinIcon size={12} color="#6C6C6C" />
-            <Text className="font-figtree text-xs text-[#232323]/60 ml-1.5 flex-1" numberOfLines={1}>
+            <Text allowFontScaling={false} className="font-figtree text-xs text-[#232323]/60 ml-1.5 flex-1" numberOfLines={1}>
               {photographer.city}
             </Text>
           </View>
@@ -178,14 +179,14 @@ function PhotographerCardComponent({
           {photographer.isAvailableToday ? (
             <View className="bg-[#232323]/95 px-3 py-1 rounded-full flex-row items-center shadow-sm">
               <View className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5" />
-              <Text className="font-figtree-bold text-[10px] text-white uppercase tracking-wider">
+              <Text allowFontScaling={false} className="font-figtree-bold text-[10px] text-white uppercase tracking-wider">
                 Available Today
               </Text>
             </View>
           ) : photographer.isAvailableThisWeek ? (
             <View className="bg-[#232323]/95 px-3 py-1 rounded-full flex-row items-center shadow-sm">
               <View className="w-1.5 h-1.5 rounded-full bg-amber-400 mr-1.5" />
-              <Text className="font-figtree-bold text-[10px] text-white uppercase tracking-wider">
+              <Text allowFontScaling={false} className="font-figtree-bold text-[10px] text-white uppercase tracking-wider">
                 Available This Week
               </Text>
             </View>
@@ -199,7 +200,7 @@ function PhotographerCardComponent({
               style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}
             >
               {isFreeOffer && <SparklesIcon size={11} color="#FFFFFF" />}
-              <Text className="font-figtree-bold text-[10px] text-white uppercase tracking-wider">
+              <Text allowFontScaling={false} className="font-figtree-bold text-[10px] text-white uppercase tracking-wider">
                 {photographer.offerTag}
               </Text>
             </View>
@@ -210,12 +211,12 @@ function PhotographerCardComponent({
       <View className="p-4 bg-white">
         <View className="flex-row justify-between items-start mb-2">
           <View className="flex-1 mr-2">
-            <Text className="font-figtree-bold text-lg text-[#232323]" numberOfLines={1}>
+            <Text allowFontScaling={false} className="font-figtree-bold text-lg text-[#232323]" numberOfLines={1}>
               {photographer.name}
             </Text>
             <View className="flex-row items-center mt-1">
               <MapPinIcon size={13} color="#6C6C6C" />
-              <Text className="font-figtree text-xs text-[#232323]/60 ml-1.5 flex-1" numberOfLines={1}>
+              <Text allowFontScaling={false} className="font-figtree text-xs text-[#232323]/60 ml-1.5 flex-1" numberOfLines={1}>
                 {photographer.location}
               </Text>
             </View>
@@ -236,13 +237,13 @@ function PhotographerCardComponent({
         {/* Pricing & View Profile Action Row */}
         <View className="flex-row items-center justify-between pt-3 mt-1.5 border-t border-[#2323231F]">
           <View>
-            <Text className="font-figtree-semibold text-[10px] uppercase text-[#6C6C6C]">Starting from</Text>
+            <Text allowFontScaling={false} className="font-figtree-semibold text-[10px] uppercase text-[#6C6C6C]">Starting from</Text>
             <View className="flex-row items-baseline mt-0.5" style={{ flexDirection: 'row', alignItems: 'baseline', gap: 6 }}>
-              <Text className="font-figtree-bold text-base text-[#232323]">
+              <Text allowFontScaling={false} className="font-figtree-bold text-base text-[#232323]">
                 ₹{photographer.startingPrice.toLocaleString('en-IN')}
               </Text>
               {photographer.originalPrice && (
-                <Text className="font-figtree text-xs text-[#6C6C6C] line-through">
+                <Text allowFontScaling={false} className="font-figtree text-xs text-[#6C6C6C] line-through">
                   ₹{photographer.originalPrice.toLocaleString('en-IN')}
                 </Text>
               )}
@@ -250,7 +251,7 @@ function PhotographerCardComponent({
           </View>
 
           <View className="bg-[#232323] px-4 py-2.5 rounded-full flex-row items-center" style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-            <Text className="font-figtree-bold text-xs text-white">
+            <Text allowFontScaling={false} className="font-figtree-bold text-xs text-white">
               View Profile
             </Text>
             <ChevronRightIcon size={14} color="#FFFFFF" />

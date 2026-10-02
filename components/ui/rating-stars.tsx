@@ -21,12 +21,12 @@ export function RatingStars({
     <View className={`flex-row items-center space-x-1 ${className}`}>
       <StarIcon size={size} color="#F59E0B" fill="#F59E0B" />
       {showText && (
-        <Text className="text-sm font-semibold text-slate-900 dark:text-slate-100 ml-1">
+        <Text allowFontScaling={false} className="text-sm font-semibold text-slate-900 dark:text-slate-100 ml-1">
           {rating.toFixed(1)}
         </Text>
       )}
       {reviewCount !== undefined && (
-        <Text className="text-xs text-slate-500 dark:text-slate-400 ml-0.5">
+        <Text allowFontScaling={false} className="text-xs text-slate-500 dark:text-slate-400 ml-0.5">
           ({reviewCount})
         </Text>
       )}
