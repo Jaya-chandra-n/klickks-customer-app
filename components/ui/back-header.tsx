@@ -9,6 +9,9 @@ export interface BackHeaderProps {
   onBack?: () => void;
   rightAction?: React.ReactNode;
   transparent?: boolean;
+  hideBack?: boolean;
+  hideRightAction?: boolean;
+  noBorder?: boolean;
 }
 
 export function BackHeader({
@@ -17,6 +20,9 @@ export function BackHeader({
   onBack,
   rightAction,
   transparent = false,
+  hideBack = false,
+  hideRightAction = false,
+  noBorder = false,
 }: BackHeaderProps) {
   const router = useRouter();
   const handleBack = onBack ?? (() => router.back());
@@ -68,17 +74,19 @@ export function BackHeader({
   }
 
   return (
-    <View className="flex-row items-center justify-between px-5 py-4 bg-white border-b border-[#2323231F]">
+    <View className={`flex-row items-center justify-between px-5 py-4 bg-white ${noBorder ? '' : 'border-b border-[#2323231F]'}`}>
       <View className="flex-row items-center gap-3 flex-1 mr-2">
-        <Pressable
-          onPress={handleBack}
-          hitSlop={12}
-          accessibilityLabel="Go back"
-          accessibilityRole="button"
-          style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
-        >
-          <BackIcon size={40} color="#232323" />
-        </Pressable>
+        {!hideBack && (
+          <Pressable
+            onPress={handleBack}
+            hitSlop={12}
+            accessibilityLabel="Go back"
+            accessibilityRole="button"
+            style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
+          >
+            <BackIcon size={40} color="#232323" />
+          </Pressable>
+        )}
         <View className="flex-1">
           <Text className="font-figtree-bold text-2xl text-[#232323]" numberOfLines={1}>
             {title}
@@ -93,7 +101,7 @@ export function BackHeader({
 
       {rightAction ? (
         <View>{rightAction}</View>
-      ) : (
+      ) : !hideRightAction ? (
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Help"
@@ -108,7 +116,7 @@ export function BackHeader({
         >
           <HelpIcon size={36} color="#232323" />
         </Pressable>
-      )}
+      ) : null}
     </View>
   );
 }

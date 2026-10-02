@@ -4,7 +4,7 @@ if (typeof globalThis !== 'undefined') {
 }
 
 import React, { useEffect, useState } from 'react';
-import { Stack, SplashScreen } from 'expo-router';
+import { Stack, SplashScreen, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -12,6 +12,7 @@ import { cssInterop } from 'nativewind';
 import { useAppFonts } from '@/hooks/use-app-fonts';
 import { useAuthStore } from '@/stores/auth';
 import { Snackbar } from '@/components/ui/snackbar';
+import { SplashScreenOverlay } from '@/components/ui/splash-screen-overlay';
 import '../global.css';
 
 cssInterop(SafeAreaView, { className: 'style' });
@@ -20,9 +21,11 @@ cssInterop(SafeAreaView, { className: 'style' });
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const router = useRouter();
   const { fontsLoaded, fontError } = useAppFonts();
-  const { isLoading, checkAuth } = useAuthStore();
+  const { isLoggedIn, isLoading, checkAuth } = useAuthStore();
   const [appReady, setAppReady] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     checkAuth();
@@ -36,15 +39,28 @@ export default function RootLayout() {
     }
   }, [fontsLoaded, fontError]);
 
+  useEffect(() => {
+    if (!appReady || isLoading || showSplash) return;
+
+    if (!isLoggedIn) {
+      router.replace('/(auth)/login');
+    }
+  }, [appReady, isLoading, isLoggedIn, showSplash]);
+
   return (
     <View style={styles.container}>
-      <StatusBar style="dark" backgroundColor="#FFFFFF" />
+      <StatusBar style="dark" translucent backgroundColor="transparent" />
       <Snackbar />
+
+      {/* 5-Second Momentizz Animated Splash Screen */}
+      {showSplash && appReady && (
+        <SplashScreenOverlay onFinish={() => setShowSplash(false)} />
+      )}
 
       {/* Unconditionally mounted Stack Navigator */}
       <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="photographer/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="booking-flow/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="booking-detail/[id]" options={{ headerShown: false }} />
@@ -52,7 +68,7 @@ export default function RootLayout() {
         <Stack.Screen name="favorites" options={{ headerShown: false }} />
       </Stack>
 
-      {/* Loading Overlay — Uses inline styles so it works even before NativeWind initializes */}
+      {/* Loading Overlay */}
       {(!appReady || isLoading) && (
         <View style={styles.loadingOverlay}>
           <ActivityIndicator size="large" color="#232323" />

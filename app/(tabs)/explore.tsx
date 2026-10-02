@@ -1,18 +1,21 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import {
   View,
   Text,
   ScrollView,
+  FlatList,
   TextInput,
   TouchableOpacity,
   Pressable,
+  Platform,
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { photographers } from '@/data/photographers';
+import { photographers, Photographer } from '@/data/photographers';
 import { categories } from '@/data/categories';
 import { PhotographerCard } from '@/components/photographer-card';
 import { CategoryPill } from '@/components/category-pill';
+import { PhotographerCardSkeleton } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { SearchIcon, CloseIcon, SlidersIcon, HelpIcon } from '@/utils/icons';
 
@@ -28,6 +31,13 @@ export default function ExploreScreen() {
   );
   const [sortBy, setSortBy] = useState<SortOption>('rating');
   const [showSortMenu, setShowSortMenu] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  React.useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => setIsLoading(false), 300);
+    return () => clearTimeout(timer);
+  }, [selectedCategory, sortBy]);
 
   const filteredPhotographers = useMemo(() => {
     let list = [...photographers];
@@ -65,9 +75,19 @@ export default function ExploreScreen() {
     return list;
   }, [searchQuery, selectedCategory, sortBy]);
 
+  const renderPhotographerItem = useCallback(
+    ({ item }: { item: Photographer }) => (
+      <PhotographerCard
+        photographer={item}
+        onPress={() => router.push(`/photographer/${item.id}`)}
+      />
+    ),
+    [router]
+  );
+
   return (
     <SafeAreaView className="flex-1 bg-white" edges={['top']}>
-      {/* Header matching Profile Header (No Shadows) */}
+      {/* Header matching Profile Header */}
       <View className="px-5 py-4 bg-white border-b border-[#2323231F]">
         <View className="flex-row items-center justify-between mb-3">
           <Text className="font-figtree-bold text-2xl text-[#232323]">
@@ -223,29 +243,39 @@ export default function ExploreScreen() {
         </View>
       )}
 
-      {/* Results List */}
-      <ScrollView contentContainerStyle={{ padding: 20 }} showsVerticalScrollIndicator={false}>
-        {filteredPhotographers.length > 0 ? (
-          filteredPhotographers.map((photographer) => (
-            <PhotographerCard
-              key={photographer.id}
-              photographer={photographer}
-              onPress={() => router.push(`/photographer/${photographer.id}`)}
+      {/* Virtualized Results List for 60FPS Performance */}
+      {isLoading ? (
+        <ScrollView contentContainerStyle={{ padding: 20 }} showsVerticalScrollIndicator={false}>
+          <PhotographerCardSkeleton />
+          <PhotographerCardSkeleton />
+          <PhotographerCardSkeleton />
+          <PhotographerCardSkeleton />
+        </ScrollView>
+      ) : (
+        <FlatList
+          data={filteredPhotographers}
+          renderItem={renderPhotographerItem}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={{ padding: 20 }}
+          showsVerticalScrollIndicator={false}
+          initialNumToRender={6}
+          maxToRenderPerBatch={4}
+          windowSize={5}
+          removeClippedSubviews={Platform.OS === 'android'}
+          ListEmptyComponent={
+            <EmptyState
+              icon={<SearchIcon size={24} color="#232323" />}
+              title="No Photographers Found"
+              description="Try changing your search terms or selecting a different category filter."
+              actionLabel="Reset Filters"
+              onAction={() => {
+                setSearchQuery('');
+                setSelectedCategory('All');
+              }}
             />
-          ))
-        ) : (
-          <EmptyState
-            icon={<SearchIcon size={24} color="#232323" />}
-            title="No Photographers Found"
-            description="Try changing your search terms or selecting a different category filter."
-            actionLabel="Reset Filters"
-            onAction={() => {
-              setSearchQuery('');
-              setSelectedCategory('All');
-            }}
-          />
-        )}
-      </ScrollView>
+          }
+        />
+      )}
     </SafeAreaView>
   );
 }

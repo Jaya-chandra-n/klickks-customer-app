@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useBookingsListStore } from '@/stores/bookings-list';
 import { BookingCard } from '@/components/booking-card';
+import { BookingCardSkeleton } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { CalendarIcon, HelpIcon } from '@/utils/icons';
 
@@ -13,6 +14,13 @@ export default function BookingsScreen() {
   const router = useRouter();
   const { bookings } = useBookingsListStore();
   const [activeTab, setActiveTab] = useState<BookingTab>('upcoming');
+  const [isLoading, setIsLoading] = useState(true);
+
+  React.useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => setIsLoading(false), 300);
+    return () => clearTimeout(timer);
+  }, [activeTab]);
 
   const filteredBookings = bookings.filter((b) => b.status === activeTab);
 
@@ -108,7 +116,13 @@ export default function BookingsScreen() {
 
       {/* Bookings List */}
       <ScrollView contentContainerStyle={{ padding: 20 }} showsVerticalScrollIndicator={false}>
-        {filteredBookings.length > 0 ? (
+        {isLoading ? (
+          <>
+            <BookingCardSkeleton />
+            <BookingCardSkeleton />
+            <BookingCardSkeleton />
+          </>
+        ) : filteredBookings.length > 0 ? (
           filteredBookings.map((booking) => (
             <BookingCard
               key={booking.id}

@@ -14,11 +14,11 @@ import { PhotographerCard } from '@/components/photographer-card';
 import { CategoryPill } from '@/components/category-pill';
 import { Avatar } from '@/components/ui/avatar';
 import { LocationModal } from '@/components/ui/location-modal';
+import { PhotographerCardSkeleton, CategoryPillSkeleton } from '@/components/ui/skeleton';
+import { MomentizzLogo } from '@/components/ui/momentizz-logo';
 import { useAuthStore } from '@/stores/auth';
 import { useLocationStore } from '@/stores/location';
 import {
-  KlickksLogo,
-  StudioLogo,
   SearchIcon,
   LocationIcon,
   HeartIcon,
@@ -35,10 +35,13 @@ export default function HomeScreen() {
 
   const [selectedCat, setSelectedCat] = useState<string>('all');
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     loadLocation();
-  }, [loadLocation]);
+    const timer = setTimeout(() => setIsLoading(false), 350);
+    return () => clearTimeout(timer);
+  }, [loadLocation, selectedCity]);
 
   // Filter photographers by selected city (or all if selectedCity is 'All Cities')
   const cityPhotographers =
@@ -51,8 +54,7 @@ export default function HomeScreen() {
         );
 
   const displayPhotographers = cityPhotographers.length > 0 ? cityPhotographers : photographers;
-  const featuredPhotographers = displayPhotographers.filter((p) => p.rating >= 4.7);
-  const offerPhotographers = displayPhotographers.filter((p) => !!p.offerTag);
+  const topRatedArtists = [...displayPhotographers].sort((a, b) => b.rating - a.rating).slice(0, 10);
 
   const handleCategoryPress = (catName: string) => {
     setSelectedCat(catName);
@@ -68,10 +70,7 @@ export default function HomeScreen() {
       {/* Studio Header matching Profile Header */}
       <View className="px-5 py-4 bg-white border-b border-[#2323231F]">
         <View className="flex-row items-center justify-between mb-3">
-          <View className="gap-0.5">
-            <KlickksLogo color="#232323" />
-            <StudioLogo color="#232323" />
-          </View>
+          <MomentizzLogo showTagline size="sm" />
 
           {/* Right Action Icons with explicit 12px gap spacing */}
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
@@ -157,77 +156,55 @@ export default function HomeScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingHorizontal: 20 }}
           >
-            {categories.map((cat) => (
-              <CategoryPill
-                key={cat.id}
-                category={cat}
-                selected={selectedCat === cat.name}
-                onPress={() => handleCategoryPress(cat.name)}
-              />
-            ))}
+            {isLoading ? (
+              <>
+                <CategoryPillSkeleton />
+                <CategoryPillSkeleton />
+                <CategoryPillSkeleton />
+                <CategoryPillSkeleton />
+              </>
+            ) : (
+              categories.map((cat) => (
+                <CategoryPill
+                  key={cat.id}
+                  category={cat}
+                  selected={selectedCat === cat.name}
+                  onPress={() => handleCategoryPress(cat.name)}
+                />
+              ))
+            )}
           </ScrollView>
         </View>
 
-        {/* Special Offers Carousel */}
-        {offerPhotographers.length > 0 && (
-          <View className="mb-6">
-            <View className="flex-row items-center justify-between px-5 mb-3">
-              <View className="flex-row items-center" style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                <SparklesIcon size={18} color="#00A03C" />
-                <Text className="font-figtree-bold text-base text-[#232323]">
-                  Exclusive Studio Offers & Deals 🏷️
-                </Text>
-              </View>
-              <TouchableOpacity onPress={() => router.push('/(tabs)/explore')}>
-                <Text className="font-figtree-bold text-xs text-[#232323] underline">
-                  View All ({offerPhotographers.length})
-                </Text>
-              </TouchableOpacity>
-            </View>
+        {/* Featured Photographers Horizontal Carousel */}
+        <View className="mb-6">
+          <View className="flex-row items-center justify-between px-5 mb-3">
+            <Text className="font-figtree-bold text-base text-[#232323]">
+              Top 10 Rated Artists ⭐
+            </Text>
+          </View>
 
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ paddingHorizontal: 20 }}
-            >
-              {offerPhotographers.map((item) => (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 10 }}
+          >
+            {isLoading ? (
+              <>
+                <PhotographerCardSkeleton horizontal />
+                <PhotographerCardSkeleton horizontal />
+                <PhotographerCardSkeleton horizontal />
+              </>
+            ) : (
+              topRatedArtists.map((item) => (
                 <PhotographerCard
                   key={item.id}
                   photographer={item}
                   horizontal
                   onPress={() => router.push(`/photographer/${item.id}`)}
                 />
-              ))}
-            </ScrollView>
-          </View>
-        )}
-
-        {/* Featured Photographers Horizontal Carousel */}
-        <View className="mb-6">
-          <View className="flex-row items-center justify-between px-5 mb-3">
-            <Text className="font-figtree-bold text-base text-[#232323]">
-              Top Rated Artists ⭐
-            </Text>
-            <TouchableOpacity onPress={() => router.push('/(tabs)/explore')}>
-              <Text className="font-figtree-bold text-xs text-[#232323] underline">
-                View All
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 20 }}
-          >
-            {featuredPhotographers.map((item) => (
-              <PhotographerCard
-                key={item.id}
-                photographer={item}
-                horizontal
-                onPress={() => router.push(`/photographer/${item.id}`)}
-              />
-            ))}
+              ))
+            )}
           </ScrollView>
         </View>
 
@@ -235,20 +212,42 @@ export default function HomeScreen() {
         <View className="px-5 pb-8">
           <View className="flex-row items-center justify-between mb-3">
             <Text className="font-figtree-bold text-base text-[#232323]">
-              Photographers ({displayPhotographers.length})
+              Featured Studios ({displayPhotographers.length})
             </Text>
             <Text className="font-figtree text-xs text-[#232323]/50">
               In {selectedCity}
             </Text>
           </View>
 
-          {displayPhotographers.map((item) => (
-            <PhotographerCard
-              key={item.id}
-              photographer={item}
-              onPress={() => router.push(`/photographer/${item.id}`)}
-            />
-          ))}
+          {isLoading ? (
+            <>
+              <PhotographerCardSkeleton />
+              <PhotographerCardSkeleton />
+              <PhotographerCardSkeleton />
+            </>
+          ) : (
+            <>
+              {displayPhotographers.slice(0, 10).map((item) => (
+                <PhotographerCard
+                  key={item.id}
+                  photographer={item}
+                  onPress={() => router.push(`/photographer/${item.id}`)}
+                />
+              ))}
+
+              {displayPhotographers.length > 10 && (
+                <TouchableOpacity
+                  onPress={() => router.push('/(tabs)/explore')}
+                  activeOpacity={0.8}
+                  className="bg-[#232323] py-3.5 px-6 rounded-2xl items-center justify-center mt-2 shadow-sm"
+                >
+                  <Text className="font-figtree-bold text-sm text-white">
+                    Explore All {displayPhotographers.length} Photographers →
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </>
+          )}
         </View>
       </ScrollView>
 

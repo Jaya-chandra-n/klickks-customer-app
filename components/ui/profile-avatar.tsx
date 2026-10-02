@@ -49,23 +49,29 @@ export function ProfileAvatar({ initialImage }: { initialImage?: string }) {
           )}
         </View>
 
-        {/* ── Edit Button ───────────────────────────── */}
-        <View className="absolute -bottom-3 w-full items-center">
+        {/* ── Edit / Upload Profile Button (Bottom Center) ───────────────────────────── */}
+        <View className="absolute -bottom-3.5 left-0 right-0 items-center justify-center">
           <Pressable
             onPress={handlePickImage}
-            className="bg-white rounded-full w-11 h-11 items-center justify-center"
+            className="bg-[#232323] px-4 py-2 rounded-full flex-row items-center border-2 border-white"
             accessibilityRole="button"
             accessibilityLabel="Edit profile picture"
             style={({ pressed }) => ({
               shadowColor: '#000',
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.12,
-              shadowRadius: 4,
-              elevation: 3,
-              opacity: pressed ? 0.6 : 1,
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.18,
+              shadowRadius: 6,
+              elevation: 4,
+              opacity: pressed ? 0.8 : 1,
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 6,
             })}
           >
-            <EditIcon size={24} color="#232323" />
+            <EditIcon size={14} color="#FFFFFF" />
+            <Text className="font-figtree-semibold text-xs text-white">
+              {imageUri ? 'Edit Profile' : 'Upload Photo'}
+            </Text>
           </Pressable>
         </View>
       </View>

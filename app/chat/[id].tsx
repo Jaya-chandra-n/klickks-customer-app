@@ -125,7 +125,7 @@ export default function DirectChatScreen() {
         </ScrollView>
 
         {/* Input Bar */}
-        <View className="p-3 bg-white border-t border-[#23232314] flex-row items-center space-x-2">
+        <View className="p-3 bg-white border-t border-[#23232314] flex-row items-center" style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
           <TextInput
             value={input}
             onChangeText={setInput}

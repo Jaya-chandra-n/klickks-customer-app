@@ -67,73 +67,80 @@ export default function LoginScreen() {
                     keyboardShouldPersistTaps='handled'
                     showsVerticalScrollIndicator={false}
                 >
-                    <BackHeader title='Login/Signup' />
-                    <AuthTabSwitcher
-                        active={method}
-                        onChange={handleMethodChange}
-                    />
-
-                    <View className='mt-8 flex-1'>
-                        {method === 'whatsapp' ? (
-                            <>
-                                <Text className='font-figtree text-sm text-[#232323]/60 mb-3'>
-                                    Enter your WhatsApp number
-                                </Text>
-
-                                <View className='flex-row gap-2'>
-                                    <TextInput
-                                        className='w-16 h-14 rounded-xl border border-[#232323]/60 px-2 text-sm text-center text-[#232323] font-figtree'
-                                        value={countryCode}
-                                        onChangeText={setCountryCode}
-                                        keyboardType='phone-pad'
-                                        accessibilityLabel='Country code'
-                                    />
-                                    <TextInput
-                                        className='flex-1 h-14 rounded-xl border border-[#232323] px-4 text-base text-[#232323] font-figtree'
-                                        value={phone}
-                                        onChangeText={setPhone}
-                                        keyboardType='phone-pad'
-                                        maxLength={10}
-                                        placeholder='Enter 10-digit number'
-                                        placeholderTextColor='#23232366'
-                                        accessibilityLabel='Phone number'
-                                    />
-                                </View>
-
-                                <Text className='font-figtree text-[13px] text-[#232323]/50 mt-2'>
-                                    OTP will be sent to this WhatsApp number.
-                                </Text>
-                            </>
-                        ) : (
-                            <>
-                                <Text className='font-figtree text-sm text-[#232323]/60 mb-3'>
-                                    Enter your Email ID
-                                </Text>
-
-                                <TextInput
-                                    className='w-full h-14 rounded-xl border border-[#232323] px-4 text-base text-[#232323] font-figtree'
-                                    value={email}
-                                    onChangeText={setEmail}
-                                    keyboardType='email-address'
-                                    autoCapitalize='none'
-                                    placeholder='name@example.com'
-                                    placeholderTextColor='#23232366'
-                                    accessibilityLabel='Email address'
-                                />
-
-                                <Text className='font-figtree text-[13px] text-[#232323]/50 mt-2'>
-                                    OTP will be sent to this email address.
-                                </Text>
-                            </>
-                        )}
-
-                        <AuthSubmitButton
-                            onPress={handleSubmit}
-                            isLoading={isLoading}
-                            isDisabled={!isValid || isLoading}
+                    <View className='w-full max-w-[480px] self-center flex-1'>
+                        <BackHeader
+                            title='Login/Signup'
+                            hideBack
+                            hideRightAction
+                            noBorder
+                        />
+                        <AuthTabSwitcher
+                            active={method}
+                            onChange={handleMethodChange}
                         />
 
-                        <TermsAndConditions />
+                        <View className='mt-8 flex-1'>
+                            {method === 'whatsapp' ? (
+                                <>
+                                    <Text className='font-figtree text-sm text-[#232323]/60 mb-3'>
+                                        Enter your WhatsApp number
+                                    </Text>
+
+                                    <View className='flex-row gap-2'>
+                                        <TextInput
+                                            className='w-16 h-14 rounded-xl border border-[#232323]/60 px-2 text-sm text-center text-[#232323] font-figtree'
+                                            value={countryCode}
+                                            onChangeText={setCountryCode}
+                                            keyboardType='phone-pad'
+                                            accessibilityLabel='Country code'
+                                        />
+                                        <TextInput
+                                            className='flex-1 h-14 rounded-xl border border-[#232323] px-4 text-base text-[#232323] font-figtree'
+                                            value={phone}
+                                            onChangeText={setPhone}
+                                            keyboardType='phone-pad'
+                                            maxLength={10}
+                                            placeholder='Enter 10-digit number'
+                                            placeholderTextColor='#23232366'
+                                            accessibilityLabel='Phone number'
+                                        />
+                                    </View>
+
+                                    <Text className='font-figtree text-[13px] text-[#232323]/50 mt-2'>
+                                        OTP will be sent to this WhatsApp number.
+                                    </Text>
+                                </>
+                            ) : (
+                                <>
+                                    <Text className='font-figtree text-sm text-[#232323]/60 mb-3'>
+                                        Enter your Email ID
+                                    </Text>
+
+                                    <TextInput
+                                        className='w-full h-14 rounded-xl border border-[#232323] px-4 text-base text-[#232323] font-figtree'
+                                        value={email}
+                                        onChangeText={setEmail}
+                                        keyboardType='email-address'
+                                        autoCapitalize='none'
+                                        placeholder='name@example.com'
+                                        placeholderTextColor='#23232366'
+                                        accessibilityLabel='Email address'
+                                    />
+
+                                    <Text className='font-figtree text-[13px] text-[#232323]/50 mt-2'>
+                                        OTP will be sent to this email address.
+                                    </Text>
+                                </>
+                            )}
+
+                            <AuthSubmitButton
+                                onPress={handleSubmit}
+                                isLoading={isLoading}
+                                isDisabled={!isValid || isLoading}
+                            />
+
+                            <TermsAndConditions />
+                        </View>
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>

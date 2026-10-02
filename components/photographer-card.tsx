@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Photographer } from '@/data/photographers';
 import { RatingStars } from './ui/rating-stars';
 import { Badge } from './ui/badge';
-import { HeartIcon, MapPinIcon, ChevronRightIcon } from '@/utils/icons';
+import { HeartIcon, MapPinIcon, ChevronRightIcon, SparklesIcon } from '@/utils/icons';
 import { useFavoritesStore } from '@/stores/favorites';
 
 export interface PhotographerCardProps {
@@ -13,7 +13,7 @@ export interface PhotographerCardProps {
   className?: string;
 }
 
-export function PhotographerCard({
+function PhotographerCardComponent({
   photographer,
   onPress,
   horizontal = false,
@@ -22,12 +22,17 @@ export function PhotographerCard({
   const { isFavorite, toggleFavorite } = useFavoritesStore();
   const favorite = isFavorite(photographer.id);
 
+  const isFreeOffer =
+    photographer.offerTag &&
+    (photographer.offerTag.toLowerCase().includes('free') ||
+      photographer.offerTag.toLowerCase().includes('complimentary'));
+
   if (horizontal) {
     return (
       <TouchableOpacity
         onPress={onPress}
         activeOpacity={0.9}
-        className={`bg-white rounded-[20px] overflow-hidden border border-[#23232314] mr-4 w-72 ${className}`}
+        className={`bg-white rounded-[20px] overflow-hidden border border-[#23232314] mr-4 w-80 ${className}`}
         style={{
           shadowColor: '#000',
           shadowOffset: { width: 0, height: 4 },
@@ -36,7 +41,7 @@ export function PhotographerCard({
           elevation: 4,
         }}
       >
-        <View className="relative h-36 w-full">
+        <View className="relative h-40 w-full">
           <Image
             source={{ uri: photographer.coverImage }}
             className="w-full h-full"
@@ -44,7 +49,7 @@ export function PhotographerCard({
           />
           <TouchableOpacity
             onPress={() => toggleFavorite(photographer.id)}
-            className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 items-center justify-center"
+            className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 items-center justify-center z-10"
           >
             <HeartIcon
               size={16}
@@ -53,15 +58,46 @@ export function PhotographerCard({
             />
           </TouchableOpacity>
 
-          {photographer.offerTag && (
-            <View className="absolute top-3 left-3 bg-[#00A03C] px-2.5 py-0.5 rounded-full">
-              <Text className="font-figtree-bold text-[10px] text-white">
-                {photographer.offerTag}
-              </Text>
-            </View>
-          )}
+          {/* Top Badges Row */}
+          <View
+            className="absolute top-3 left-3 flex-row items-center flex-wrap"
+            style={{ maxWidth: '75%', flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}
+          >
+            {photographer.isAvailableToday ? (
+              <View className="bg-[#232323]/95 px-2.5 py-1 rounded-full flex-row items-center shadow-sm">
+                <View className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5" />
+                <Text className="font-figtree-bold text-[9px] text-white uppercase tracking-wider">
+                  Today
+                </Text>
+              </View>
+            ) : photographer.isAvailableThisWeek ? (
+              <View className="bg-[#232323]/95 px-2.5 py-1 rounded-full flex-row items-center shadow-sm">
+                <View className="w-1.5 h-1.5 rounded-full bg-amber-400 mr-1.5" />
+                <Text className="font-figtree-bold text-[9px] text-white uppercase tracking-wider">
+                  This Week
+                </Text>
+              </View>
+            ) : null}
 
-          <View className="absolute bottom-2 left-3 bg-[#232323]/90 px-2 py-0.5 rounded-md flex-row items-center gap-1">
+            {photographer.offerTag && (
+              <View
+                className={`px-2.5 py-1 rounded-full shadow-sm flex-row items-center ${
+                  isFreeOffer ? 'bg-[#7C3AED]' : 'bg-[#00A03C]'
+                }`}
+                style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}
+              >
+                {isFreeOffer && <SparklesIcon size={10} color="#FFFFFF" />}
+                <Text className="font-figtree-bold text-[9px] text-white uppercase tracking-wider">
+                  {photographer.offerTag}
+                </Text>
+              </View>
+            )}
+          </View>
+
+          <View
+            className="absolute bottom-2 left-3 bg-[#232323]/90 px-2.5 py-1 rounded-lg flex-row items-center"
+            style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}
+          >
             <Text className="font-figtree-semibold text-[10px] text-white">
               From ₹{photographer.startingPrice.toLocaleString('en-IN')}
             </Text>
@@ -73,8 +109,8 @@ export function PhotographerCard({
           </View>
         </View>
 
-        <View className="p-4">
-          <View className="flex-row items-center justify-between mb-1">
+        <View className="p-4 bg-white">
+          <View className="flex-row items-center justify-between mb-1.5">
             <Text
               className="font-figtree-bold text-base text-[#232323] flex-1 mr-2"
               numberOfLines={1}
@@ -84,16 +120,18 @@ export function PhotographerCard({
             <RatingStars rating={photographer.rating} showText />
           </View>
 
-          <View className="flex-row items-center mb-2">
+          <View className="flex-row items-center mb-2.5">
             <MapPinIcon size={12} color="#6C6C6C" />
-            <Text className="font-figtree text-xs text-[#232323]/60 ml-1">
+            <Text className="font-figtree text-xs text-[#232323]/60 ml-1.5 flex-1" numberOfLines={1}>
               {photographer.city}
             </Text>
           </View>
 
-          <View className="flex-row flex-wrap gap-1">
-            {photographer.specialties.slice(0, 2).map((spec, idx) => (
-              <Badge key={idx} label={spec} size="sm" variant="slate" />
+          <View className="flex-row flex-wrap" style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
+            {photographer.specialties.slice(0, 3).map((spec, idx) => (
+              <View key={idx}>
+                <Badge label={spec} size="sm" variant="slate" />
+              </View>
             ))}
           </View>
         </View>
@@ -105,16 +143,16 @@ export function PhotographerCard({
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.9}
-      className={`bg-white rounded-[20px] overflow-hidden border border-[#23232314] mb-4 w-full ${className}`}
+      className={`bg-white rounded-[22px] overflow-hidden border border-[#2323231A] mb-4 w-full ${className}`}
       style={{
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 6 },
         shadowOpacity: 0.08,
-        shadowRadius: 18,
-        elevation: 6,
+        shadowRadius: 16,
+        elevation: 5,
       }}
     >
-      <View className="relative h-44 w-full">
+      <View className="relative h-48 w-full">
         <Image
           source={{ uri: photographer.coverImage }}
           className="w-full h-full"
@@ -123,7 +161,7 @@ export function PhotographerCard({
 
         <TouchableOpacity
           onPress={() => toggleFavorite(photographer.id)}
-          className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/40 items-center justify-center"
+          className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/40 items-center justify-center z-10"
         >
           <HeartIcon
             size={18}
@@ -132,34 +170,52 @@ export function PhotographerCard({
           />
         </TouchableOpacity>
 
-        {/* Top Badges */}
-        <View className="absolute top-3 left-3 flex-row items-center gap-1.5 flex-wrap">
-          {photographer.offerTag ? (
-            <View className="bg-[#00A03C] px-2.5 py-1 rounded-full shadow-sm">
-              <Text className="font-figtree-bold text-[10px] text-white uppercase tracking-wider">
-                {photographer.offerTag}
-              </Text>
-            </View>
-          ) : photographer.isAvailableToday ? (
-            <View className="bg-[#232323] px-2.5 py-1 rounded-full flex-row items-center">
+        {/* Top Badges Container */}
+        <View
+          className="absolute top-3 left-3 flex-row items-center flex-wrap"
+          style={{ maxWidth: '80%', flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}
+        >
+          {photographer.isAvailableToday ? (
+            <View className="bg-[#232323]/95 px-3 py-1 rounded-full flex-row items-center shadow-sm">
               <View className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5" />
               <Text className="font-figtree-bold text-[10px] text-white uppercase tracking-wider">
                 Available Today
               </Text>
             </View>
+          ) : photographer.isAvailableThisWeek ? (
+            <View className="bg-[#232323]/95 px-3 py-1 rounded-full flex-row items-center shadow-sm">
+              <View className="w-1.5 h-1.5 rounded-full bg-amber-400 mr-1.5" />
+              <Text className="font-figtree-bold text-[10px] text-white uppercase tracking-wider">
+                Available This Week
+              </Text>
+            </View>
           ) : null}
+
+          {photographer.offerTag && (
+            <View
+              className={`px-3 py-1 rounded-full shadow-sm flex-row items-center ${
+                isFreeOffer ? 'bg-[#7C3AED]' : 'bg-[#00A03C]'
+              }`}
+              style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}
+            >
+              {isFreeOffer && <SparklesIcon size={11} color="#FFFFFF" />}
+              <Text className="font-figtree-bold text-[10px] text-white uppercase tracking-wider">
+                {photographer.offerTag}
+              </Text>
+            </View>
+          )}
         </View>
       </View>
 
-      <View className="p-4">
+      <View className="p-4 bg-white">
         <View className="flex-row justify-between items-start mb-2">
           <View className="flex-1 mr-2">
-            <Text className="font-figtree-bold text-lg text-[#232323]">
+            <Text className="font-figtree-bold text-lg text-[#232323]" numberOfLines={1}>
               {photographer.name}
             </Text>
-            <View className="flex-row items-center mt-0.5">
+            <View className="flex-row items-center mt-1">
               <MapPinIcon size={13} color="#6C6C6C" />
-              <Text className="font-figtree text-xs text-[#232323]/60 ml-1">
+              <Text className="font-figtree text-xs text-[#232323]/60 ml-1.5 flex-1" numberOfLines={1}>
                 {photographer.location}
               </Text>
             </View>
@@ -168,28 +224,32 @@ export function PhotographerCard({
           <RatingStars rating={photographer.rating} reviewCount={photographer.reviewCount} />
         </View>
 
-        <View className="flex-row flex-wrap gap-1.5 my-2">
+        {/* Specialty Badges Row */}
+        <View className="flex-row flex-wrap my-2" style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>
           {photographer.specialties.map((spec, idx) => (
-            <Badge key={idx} label={spec} size="sm" variant="slate" />
+            <View key={idx}>
+              <Badge label={spec} size="sm" variant="slate" />
+            </View>
           ))}
         </View>
 
-        <View className="flex-row items-center justify-between pt-3 mt-1 border-t border-[#2323231F]">
+        {/* Pricing & View Profile Action Row */}
+        <View className="flex-row items-center justify-between pt-3 mt-1.5 border-t border-[#2323231F]">
           <View>
-            <Text className="font-figtree-semibold text-[10px] uppercase text-[#232323]/50">Starting from</Text>
-            <View className="flex-row items-baseline gap-1.5">
+            <Text className="font-figtree-semibold text-[10px] uppercase text-[#6C6C6C]">Starting from</Text>
+            <View className="flex-row items-baseline mt-0.5" style={{ flexDirection: 'row', alignItems: 'baseline', gap: 6 }}>
               <Text className="font-figtree-bold text-base text-[#232323]">
                 ₹{photographer.startingPrice.toLocaleString('en-IN')}
               </Text>
               {photographer.originalPrice && (
-                <Text className="font-figtree text-xs text-[#232323]/40 line-through">
+                <Text className="font-figtree text-xs text-[#6C6C6C] line-through">
                   ₹{photographer.originalPrice.toLocaleString('en-IN')}
                 </Text>
               )}
             </View>
           </View>
 
-          <View className="bg-[#232323] px-4 py-2.5 rounded-full flex-row items-center gap-1">
+          <View className="bg-[#232323] px-4 py-2.5 rounded-full flex-row items-center" style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
             <Text className="font-figtree-bold text-xs text-white">
               View Profile
             </Text>
@@ -200,3 +260,9 @@ export function PhotographerCard({
     </TouchableOpacity>
   );
 }
+
+export const PhotographerCard = React.memo(PhotographerCardComponent);
+
+
+
+
