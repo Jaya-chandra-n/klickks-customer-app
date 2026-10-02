@@ -69,8 +69,10 @@ export default function HomeScreen() {
     <SafeAreaView className="flex-1 bg-white" edges={['top']}>
       {/* Studio Header matching Profile Header */}
       <View className="px-5 py-4 bg-white border-b border-[#2323231F]">
-        <View className="flex-row items-center justify-between mb-3">
-          <MomentizzLogo showTagline size="sm" />
+        <View className="flex-row items-center justify-between mb-3" style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <View style={{ flex: 1, marginRight: 12 }}>
+            <MomentizzLogo showTagline size="sm" />
+          </View>
 
           {/* Right Action Icons with explicit 12px gap spacing */}
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
@@ -180,7 +182,7 @@ export default function HomeScreen() {
         <View className="mb-6">
           <View className="flex-row items-center justify-between px-5 mb-3">
             <Text className="font-figtree-bold text-base text-[#232323]">
-              Top 10 Rated Artists ⭐
+              Top 10 Rated Artists
             </Text>
           </View>
 

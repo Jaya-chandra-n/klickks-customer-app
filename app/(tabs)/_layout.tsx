@@ -40,11 +40,15 @@ export default function TabsLayout() {
         tabBarItemStyle: {
           justifyContent: 'center',
           alignItems: 'center',
+          paddingHorizontal: 0,
+          marginHorizontal: 0,
         },
         tabBarLabelStyle: {
-          fontSize: 11,
+          fontSize: 10.5,
           fontFamily: 'Figtree_600SemiBold',
           marginTop: 2,
+          paddingHorizontal: 0,
+          marginHorizontal: 0,
         },
       }}
     >
@@ -58,7 +62,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="explore"
         options={{
-          title: 'Discover',
+          title: 'Explore',
           tabBarIcon: ({ color }) => <SearchIcon color={color} size={22} />,
         }}
       />
