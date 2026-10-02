@@ -69,7 +69,7 @@ export default function HomeScreen() {
       <View style={styles.header}>
         <View style={styles.headerRow}>
           <View style={styles.logoContainer}>
-            <MomentizzLogo showTagline size="sm" />
+            <MomentizzLogo showTagline size="md" />
           </View>
 
           <View style={styles.headerActions}>
@@ -85,7 +85,7 @@ export default function HomeScreen() {
               onPress={() => router.push('/(tabs)/profile')}
               activeOpacity={0.8}
             >
-              <Avatar url={customer?.avatar} name={customer?.name || 'Jay'} size="sm" />
+              <Avatar url={customer?.avatar} name={customer?.name || 'Jay'} size="md" />
             </TouchableOpacity>
           </View>
         </View>
@@ -195,7 +195,7 @@ export default function HomeScreen() {
 
         {/* Featured Studios Section */}
         <View style={styles.featuredSection}>
-          <View style={styles.sectionHeaderRow}>
+          <View className='flex flex-row justify-between pb-4'>
             <Text allowFontScaling={false} style={styles.sectionTitleFlex}>
               Featured Studios ({displayPhotographers.length})
             </Text>
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     marginBottom: 12,
   },
   sectionTitle: {
@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
     fontSize: 14.5,
     color: '#232323',
     flexShrink: 1,
-    marginRight: 8,
+    marginRight: 0,
   },
   seeAllText: {
     fontFamily: 'Figtree_700Bold',
@@ -364,17 +364,17 @@ const styles = StyleSheet.create({
     color: 'rgba(35, 35, 35, 0.5)',
   },
   horizontalScrollContent: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
   },
   horizontalScrollContentWithBottom: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     paddingBottom: 10,
   },
   topArtistsSection: {
     marginBottom: 24,
   },
   featuredSection: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     paddingBottom: 32,
   },
   exploreAllButton: {

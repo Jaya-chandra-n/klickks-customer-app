@@ -39,6 +39,7 @@ export default function TabsLayout() {
           shadowRadius: 10,
         },
         tabBarItemStyle: {
+          flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
           paddingHorizontal: 0,
@@ -51,6 +52,7 @@ export default function TabsLayout() {
           marginTop: 2,
           paddingHorizontal: 0,
           marginHorizontal: 0,
+          textAlign: 'center',
         },
       }}
     >

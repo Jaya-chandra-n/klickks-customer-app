@@ -29,24 +29,9 @@ export default function BookingsScreen() {
       {/* Header matching Profile header (No Shadows) */}
       <View className="px-5 py-4 bg-white border-b border-[#2323231F]">
         <View className="flex-row items-center justify-between mb-3">
-          <Text className="font-figtree-bold text-2xl text-[#232323]">
+          <Text allowFontScaling={false} className="font-figtree-bold text-2xl text-[#232323]">
             My Bookings
           </Text>
-
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Help"
-            style={({ pressed }) => ({
-              width: 44,
-              height: 44,
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 22,
-              opacity: pressed ? 0.7 : 1,
-            })}
-          >
-            <HelpIcon size={36} color="#232323" />
-          </Pressable>
         </View>
 
         {/* Tab Switcher Pills */}

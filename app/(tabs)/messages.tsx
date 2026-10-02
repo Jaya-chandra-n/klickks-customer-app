@@ -72,36 +72,21 @@ export default function MessagesScreen() {
         <View className="flex-row items-center justify-between mb-3">
           <View>
             <View className="flex-row items-center" style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-              <Text className="font-figtree-bold text-2xl text-[#232323]">
+              <Text allowFontScaling={false} className="font-figtree-bold text-2xl text-[#232323]">
                 Messages
               </Text>
               {totalUnread > 0 && (
                 <View className="bg-[#232323] px-2.5 py-0.5 rounded-full">
-                  <Text className="font-figtree-bold text-xs text-white">
+                  <Text allowFontScaling={false} className="font-figtree-bold text-xs text-white">
                     {totalUnread} new
                   </Text>
                 </View>
               )}
             </View>
-            <Text className="font-figtree text-xs text-[#6C6C6C] mt-0.5">
+            <Text allowFontScaling={false} className="font-figtree text-xs text-[#6C6C6C] mt-0.5">
               Direct communication with your booked studio partners
             </Text>
           </View>
-
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Help"
-            style={({ pressed }) => ({
-              width: 44,
-              height: 44,
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 22,
-              opacity: pressed ? 0.7 : 1,
-            })}
-          >
-            <HelpIcon size={36} color="#232323" />
-          </Pressable>
         </View>
 
         {/* ── Search Bar ────────────────────────────────────────── */}
