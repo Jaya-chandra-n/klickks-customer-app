@@ -70,7 +70,7 @@ export default function HomeScreen() {
       {/* Studio Header matching Profile Header */}
       <View className="px-4 py-3 bg-white border-b border-[#2323231F]">
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-          <View style={{ flex: 1, marginRight: 8, justifyContent: 'center' }}>
+          <View style={{ flexShrink: 0, marginRight: 8, justifyContent: 'center' }}>
             <MomentizzLogo showTagline size="sm" />
           </View>
 
@@ -112,16 +112,17 @@ export default function HomeScreen() {
         </View>
 
         {/* Location selector */}
-        <View className="flex-row items-center mt-1">
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4, flexWrap: 'wrap' }}>
           <LocationIcon color="#6C6C6C" />
-          <Text className="font-figtree text-xs text-[#232323]/60 ml-1.5">Deliver Shoots to:</Text>
+          <Text allowFontScaling={false} style={{ fontFamily: 'Figtree_400Regular', fontSize: 12, color: '#23232399', marginLeft: 6 }}>
+            Deliver Shoots to:
+          </Text>
           <TouchableOpacity
             onPress={() => setIsLocationModalOpen(true)}
-            className="flex-row items-center ml-1"
             activeOpacity={0.7}
-            style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}
+            style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 4, gap: 4 }}
           >
-            <Text className="font-figtree-bold text-sm text-[#232323] ml-1">
+            <Text allowFontScaling={false} style={{ fontFamily: 'Figtree_700Bold', fontSize: 13, color: '#232323' }}>
               {activeLocationLabel}
             </Text>
             <ArrowDownIcon size={14} color="#232323" />
@@ -132,10 +133,10 @@ export default function HomeScreen() {
         <TouchableOpacity
           onPress={() => router.push('/(tabs)/explore')}
           activeOpacity={0.9}
-          className="flex-row items-center px-4 h-12 mt-3 rounded-2xl bg-white border border-[#2323231F]"
+          style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, height: 48, marginTop: 12, borderRadius: 16, backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#2323231F' }}
         >
           <SearchIcon size={18} color="#6C6C6C" />
-          <Text className="flex-1 font-figtree text-sm text-[#8C8C8C] ml-3">
+          <Text allowFontScaling={false} style={{ flex: 1, fontFamily: 'Figtree_400Regular', fontSize: 13, color: '#8C8C8C', marginLeft: 12 }}>
             Search photographers, cities, or events...
           </Text>
           <SlidersIcon size={18} color="#232323" />
@@ -145,12 +146,12 @@ export default function HomeScreen() {
       <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
         {/* Categories Section */}
         <View className="pb-5 pt-4">
-          <View className="flex-row items-center justify-between px-5 mb-3">
-            <Text className="font-figtree-bold text-base text-[#232323]">
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, marginBottom: 12 }}>
+            <Text allowFontScaling={false} style={{ fontFamily: 'Figtree_700Bold', fontSize: 15, color: '#232323' }}>
               Browse Categories
             </Text>
             <TouchableOpacity onPress={() => router.push('/(tabs)/explore')}>
-              <Text className="font-figtree-bold text-xs text-[#232323] underline">
+              <Text allowFontScaling={false} style={{ fontFamily: 'Figtree_700Bold', fontSize: 12, color: '#232323', textDecorationLine: 'underline' }}>
                 See All
               </Text>
             </TouchableOpacity>
@@ -183,8 +184,8 @@ export default function HomeScreen() {
 
         {/* Featured Photographers Horizontal Carousel */}
         <View className="mb-6">
-          <View className="flex-row items-center justify-between px-5 mb-3">
-            <Text className="font-figtree-bold text-base text-[#232323]">
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, marginBottom: 12 }}>
+            <Text allowFontScaling={false} style={{ fontFamily: 'Figtree_700Bold', fontSize: 15, color: '#232323' }}>
               Top 10 Rated Artists
             </Text>
           </View>
@@ -215,11 +216,11 @@ export default function HomeScreen() {
 
         {/* All Nearby Photographers */}
         <View className="px-5 pb-8">
-          <View className="flex-row items-center justify-between mb-3">
-            <Text className="font-figtree-bold text-base text-[#232323]">
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+            <Text allowFontScaling={false} style={{ fontFamily: 'Figtree_700Bold', fontSize: 15, color: '#232323', flexShrink: 1, marginRight: 8 }}>
               Featured Studios ({displayPhotographers.length})
             </Text>
-            <Text className="font-figtree text-xs text-[#232323]/50">
+            <Text allowFontScaling={false} style={{ fontFamily: 'Figtree_400Regular', fontSize: 12, color: '#23232380' }}>
               In {selectedCity}
             </Text>
           </View>
