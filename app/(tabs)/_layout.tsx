@@ -24,6 +24,7 @@ export default function TabsLayout() {
         tabBarActiveTintColor: '#232323',
         tabBarInactiveTintColor: '#8C8C8C',
         tabBarHideOnKeyboard: true,
+        tabBarAllowFontScaling: false,
         tabBarStyle: {
           height: tabHeight,
           paddingTop: 6,
@@ -44,8 +45,9 @@ export default function TabsLayout() {
           marginHorizontal: 0,
         },
         tabBarLabelStyle: {
-          fontSize: 10.5,
+          fontSize: 10,
           fontFamily: 'Figtree_600SemiBold',
+          letterSpacing: -0.2,
           marginTop: 2,
           paddingHorizontal: 0,
           marginHorizontal: 0,

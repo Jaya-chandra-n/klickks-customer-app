@@ -19,6 +19,9 @@ export function MomentizzLogo({
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Text
           numberOfLines={1}
+          allowFontScaling={false}
+          adjustsFontSizeToFit={true}
+          minimumFontScale={0.8}
           style={{
             fontFamily: 'Unbounded_900Black',
             fontSize: fontSize,
@@ -32,11 +35,14 @@ export function MomentizzLogo({
       {showTagline && (
         <Text
           numberOfLines={1}
+          allowFontScaling={false}
+          adjustsFontSizeToFit={true}
+          minimumFontScale={0.8}
           style={{
             fontFamily: 'Figtree_600SemiBold',
-            fontSize: 9.5,
+            fontSize: size === 'sm' ? 9 : 10,
             color: color === '#232323' ? '#6C6C6C' : 'rgba(255,255,255,0.7)',
-            letterSpacing: 1.0,
+            letterSpacing: 0.2,
             marginTop: 1,
           }}
         >
@@ -46,3 +52,4 @@ export function MomentizzLogo({
     </View>
   );
 }
+

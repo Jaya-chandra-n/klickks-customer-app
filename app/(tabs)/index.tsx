@@ -68,42 +68,45 @@ export default function HomeScreen() {
   return (
     <SafeAreaView className="flex-1 bg-white" edges={['top']}>
       {/* Studio Header matching Profile Header */}
-      <View className="px-5 py-4 bg-white border-b border-[#2323231F]">
-        <View className="flex-row items-center justify-between mb-3" style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <View style={{ flex: 1, marginRight: 12 }}>
+      <View className="px-4 py-3 bg-white border-b border-[#2323231F]">
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+          <View style={{ flex: 1, marginRight: 8, justifyContent: 'center' }}>
             <MomentizzLogo showTagline size="sm" />
           </View>
 
-          {/* Right Action Icons with explicit 12px gap spacing */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+          {/* Right Action Icons with compact 8px gap spacing */}
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <TouchableOpacity
               onPress={() => router.push('/favorites')}
-              className="w-10 h-10 rounded-full bg-[#F8F9FA] items-center justify-center border border-[#23232314]"
+              style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: '#F8F9FA', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#23232314' }}
               activeOpacity={0.7}
             >
-              <HeartIcon size={18} color="#232323" fill="#232323" />
+              <HeartIcon size={16} color="#232323" fill="#232323" />
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={() => router.push('/(tabs)/profile')}
               activeOpacity={0.8}
             >
-              <Avatar url={customer?.avatar} name={customer?.name || 'Jay'} size="md" />
+              <Avatar url={customer?.avatar} name={customer?.name || 'Jay'} size="sm" />
             </TouchableOpacity>
 
             <Pressable
               accessibilityRole="button"
               accessibilityLabel="Help"
               style={({ pressed }) => ({
-                width: 44,
-                height: 44,
+                width: 36,
+                height: 36,
                 alignItems: 'center',
                 justifyContent: 'center',
-                borderRadius: 22,
+                borderRadius: 18,
+                backgroundColor: '#F8F9FA',
+                borderWidth: 1,
+                borderColor: '#23232314',
                 opacity: pressed ? 0.7 : 1,
               })}
             >
-              <HelpIcon size={36} color="#232323" />
+              <HelpIcon size={18} color="#232323" />
             </Pressable>
           </View>
         </View>
