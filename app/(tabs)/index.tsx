@@ -5,6 +5,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Pressable,
+  StyleSheet,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -24,8 +25,6 @@ import {
   HeartIcon,
   SlidersIcon,
   ArrowDownIcon,
-  SparklesIcon,
-  HelpIcon,
 } from '@/utils/icons';
 
 export default function HomeScreen() {
@@ -43,7 +42,6 @@ export default function HomeScreen() {
     return () => clearTimeout(timer);
   }, [loadLocation, selectedCity]);
 
-  // Filter photographers by selected city (or all if selectedCity is 'All Cities')
   const cityPhotographers =
     selectedCity === 'All Cities'
       ? photographers
@@ -66,19 +64,18 @@ export default function HomeScreen() {
     : selectedCity;
 
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={['top']}>
-      {/* Studio Header matching Profile Header */}
-      <View className="px-4 py-3 bg-white border-b border-[#2323231F]">
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-          <View style={{ flexShrink: 0, marginRight: 8, justifyContent: 'center' }}>
+    <SafeAreaView style={styles.container} edges={['top']}>
+      {/* Top Header */}
+      <View style={styles.header}>
+        <View style={styles.headerRow}>
+          <View style={styles.logoContainer}>
             <MomentizzLogo showTagline size="sm" />
           </View>
 
-          {/* Right Action Icons */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+          <View style={styles.headerActions}>
             <TouchableOpacity
               onPress={() => router.push('/favorites')}
-              style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: '#F8F9FA', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#23232314' }}
+              style={styles.iconButton}
               activeOpacity={0.7}
             >
               <HeartIcon size={16} color="#232323" fill="#232323" />
@@ -94,46 +91,46 @@ export default function HomeScreen() {
         </View>
 
         {/* Location selector */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4, flexWrap: 'wrap' }}>
+        <View style={styles.locationRow}>
           <LocationIcon color="#6C6C6C" />
-          <Text allowFontScaling={false} style={{ fontFamily: 'Figtree_400Regular', fontSize: 12, color: '#23232399', marginLeft: 6 }}>
+          <Text allowFontScaling={false} style={styles.deliverLabel}>
             Deliver Shoots to:
           </Text>
           <TouchableOpacity
             onPress={() => setIsLocationModalOpen(true)}
             activeOpacity={0.7}
-            style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 4, gap: 4 }}
+            style={styles.locationButton}
           >
-            <Text allowFontScaling={false} style={{ fontFamily: 'Figtree_700Bold', fontSize: 13, color: '#232323' }}>
+            <Text allowFontScaling={false} style={styles.locationText} numberOfLines={1}>
               {activeLocationLabel}
             </Text>
             <ArrowDownIcon size={14} color="#232323" />
           </TouchableOpacity>
         </View>
 
-        {/* Studio Styled Search Bar */}
+        {/* Search Bar */}
         <TouchableOpacity
           onPress={() => router.push('/(tabs)/explore')}
           activeOpacity={0.9}
-          style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, height: 48, marginTop: 12, borderRadius: 16, backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#2323231F' }}
+          style={styles.searchBar}
         >
           <SearchIcon size={18} color="#6C6C6C" />
-          <Text allowFontScaling={false} style={{ flex: 1, fontFamily: 'Figtree_400Regular', fontSize: 13, color: '#8C8C8C', marginLeft: 12 }}>
+          <Text allowFontScaling={false} style={styles.searchText} numberOfLines={1}>
             Search photographers, cities, or events...
           </Text>
           <SlidersIcon size={18} color="#232323" />
         </TouchableOpacity>
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollArea}>
         {/* Categories Section */}
-        <View className="pb-5 pt-4">
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, marginBottom: 12 }}>
-            <Text allowFontScaling={false} style={{ fontFamily: 'Figtree_700Bold', fontSize: 15, color: '#232323' }}>
+        <View style={styles.categoriesSection}>
+          <View style={styles.sectionHeaderRow}>
+            <Text allowFontScaling={false} style={styles.sectionTitle}>
               Browse Categories
             </Text>
             <TouchableOpacity onPress={() => router.push('/(tabs)/explore')}>
-              <Text allowFontScaling={false} style={{ fontFamily: 'Figtree_700Bold', fontSize: 12, color: '#232323', textDecorationLine: 'underline' }}>
+              <Text allowFontScaling={false} style={styles.seeAllText}>
                 See All
               </Text>
             </TouchableOpacity>
@@ -142,7 +139,7 @@ export default function HomeScreen() {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 20 }}
+            contentContainerStyle={styles.horizontalScrollContent}
           >
             {isLoading ? (
               <>
@@ -164,10 +161,10 @@ export default function HomeScreen() {
           </ScrollView>
         </View>
 
-        {/* Featured Photographers Horizontal Carousel */}
-        <View className="mb-6">
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, marginBottom: 12 }}>
-            <Text allowFontScaling={false} style={{ fontFamily: 'Figtree_700Bold', fontSize: 15, color: '#232323' }}>
+        {/* Top 10 Rated Artists */}
+        <View style={styles.topArtistsSection}>
+          <View style={styles.sectionHeaderRow}>
+            <Text allowFontScaling={false} style={styles.sectionTitle}>
               Top 10 Rated Artists
             </Text>
           </View>
@@ -175,7 +172,7 @@ export default function HomeScreen() {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 10 }}
+            contentContainerStyle={styles.horizontalScrollContentWithBottom}
           >
             {isLoading ? (
               <>
@@ -196,13 +193,13 @@ export default function HomeScreen() {
           </ScrollView>
         </View>
 
-        {/* All Nearby Photographers */}
-        <View className="px-5 pb-8">
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-            <Text allowFontScaling={false} style={{ fontFamily: 'Figtree_700Bold', fontSize: 15, color: '#232323', flexShrink: 1, marginRight: 8 }}>
+        {/* Featured Studios Section */}
+        <View style={styles.featuredSection}>
+          <View style={styles.sectionHeaderRow}>
+            <Text allowFontScaling={false} style={styles.sectionTitleFlex}>
               Featured Studios ({displayPhotographers.length})
             </Text>
-            <Text allowFontScaling={false} style={{ fontFamily: 'Figtree_400Regular', fontSize: 12, color: '#23232380' }}>
+            <Text allowFontScaling={false} style={styles.cityText}>
               In {selectedCity}
             </Text>
           </View>
@@ -227,9 +224,9 @@ export default function HomeScreen() {
                 <TouchableOpacity
                   onPress={() => router.push('/(tabs)/explore')}
                   activeOpacity={0.8}
-                  className="bg-[#232323] py-3.5 px-6 rounded-2xl items-center justify-center mt-2 shadow-sm"
+                  style={styles.exploreAllButton}
                 >
-                  <Text className="font-figtree-bold text-sm text-white">
+                  <Text allowFontScaling={false} style={styles.exploreAllText}>
                     Explore All {displayPhotographers.length} Photographers →
                   </Text>
                 </TouchableOpacity>
@@ -247,3 +244,151 @@ export default function HomeScreen() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  header: {
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 12,
+    backgroundColor: '#FFFFFF',
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(35, 35, 35, 0.12)',
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  logoContainer: {
+    flexShrink: 0,
+    marginRight: 8,
+    justifyContent: 'center',
+  },
+  headerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  iconButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#F8F9FA',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(35, 35, 35, 0.08)',
+  },
+  locationRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 4,
+    flexWrap: 'wrap',
+  },
+  deliverLabel: {
+    fontFamily: 'Figtree_400Regular',
+    fontSize: 12,
+    color: 'rgba(35, 35, 35, 0.6)',
+    marginLeft: 6,
+  },
+  locationButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 4,
+    gap: 4,
+  },
+  locationText: {
+    fontFamily: 'Figtree_700Bold',
+    fontSize: 13,
+    color: '#232323',
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    height: 48,
+    marginTop: 12,
+    borderRadius: 16,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: 'rgba(35, 35, 35, 0.12)',
+  },
+  searchText: {
+    flex: 1,
+    fontFamily: 'Figtree_400Regular',
+    fontSize: 13,
+    color: '#8C8C8C',
+    marginLeft: 12,
+  },
+  scrollArea: {
+    flex: 1,
+  },
+  categoriesSection: {
+    paddingTop: 16,
+    paddingBottom: 20,
+  },
+  sectionHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    marginBottom: 12,
+  },
+  sectionTitle: {
+    fontFamily: 'Figtree_700Bold',
+    fontSize: 15,
+    color: '#232323',
+  },
+  sectionTitleFlex: {
+    fontFamily: 'Figtree_700Bold',
+    fontSize: 15,
+    color: '#232323',
+    flexShrink: 1,
+    marginRight: 8,
+  },
+  seeAllText: {
+    fontFamily: 'Figtree_700Bold',
+    fontSize: 12,
+    color: '#232323',
+    textDecorationLine: 'underline',
+  },
+  cityText: {
+    fontFamily: 'Figtree_400Regular',
+    fontSize: 12,
+    color: 'rgba(35, 35, 35, 0.5)',
+  },
+  horizontalScrollContent: {
+    paddingHorizontal: 20,
+  },
+  horizontalScrollContentWithBottom: {
+    paddingHorizontal: 20,
+    paddingBottom: 10,
+  },
+  topArtistsSection: {
+    marginBottom: 24,
+  },
+  featuredSection: {
+    paddingHorizontal: 20,
+    paddingBottom: 32,
+  },
+  exploreAllButton: {
+    backgroundColor: '#232323',
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 8,
+  },
+  exploreAllText: {
+    fontFamily: 'Figtree_700Bold',
+    fontSize: 14,
+    color: '#FFFFFF',
+  },
+});
+
